@@ -1,0 +1,6 @@
+/******CUSTOM TOOLTIP*******/
+
+
+div.custom-tooltip {
+    --bs-tooltip-bg: var(--bs-danger);
+} 
