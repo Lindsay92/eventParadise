@@ -28,10 +28,10 @@ givenDate.setAttribute("min", newDate);
 
 /************* Event **************/
 
-//****** */=> Creat a tooltip (bootstrap):
+//****** */=> Creat a tooltip with bootstrap:
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-//****** */=> Creat a tooltip :
+//****** */=> Creat a tooltip with bootstrap:
 
 const form = document.querySelector("form");
 // console.log(form);
@@ -56,10 +56,33 @@ for (const element of elements) {
             element.setAttribute("data-bs-title", "Ce champ est obligatoire");
             element.setAttribute("data-bs-custom-class", "custom-tooltip");
         
+            const validity = element.validity;
+            //console.log(validity);
+            //I can see the status of my differents values (valueMissing, tooLong, tooShort...)
+
+            //BE CAREFUL ! : condition before the method show
+            if(element.validity.valueMissing == true) {
+                element.setAttribute("data-bs-title", "Ce champ est obligatoire");
+                //console.log("Value missing");
+                //First error message if my form is empty,
+
+            } else if (element.name == "date") {
+                element.setAttribute("data-bs-title", "Doit être égale ou supèrieure à aujourd'hui");
+                console.log("Too low");
+                //if it's not empty but invalid input,
+        
+            } else if (element.name == "rate") {
+                element.setAttribute("data-bs-title", "Doit être positif");
+                console.log("Be positif");
+                //if it's not empty but invalid input. 
+            }
+
             const tooltip = bootstrap.Tooltip.getOrCreateInstance(element);
 
             tooltip.show();
             
+
+            //Change the color of my helptext =>
 
             // 1°: I pick up the value "name" of my DOM from each input
             const name = element.name;
@@ -72,23 +95,9 @@ for (const element of elements) {
             //3°: I add a class in order to change the color text of my helptext
             nameHelp.classList.add("text-danger");
             // console.log(nameHelp);
-
-
-            const validity = element.validity;
-            console.log(validity);
-            //I can see the status of differents values
-
-            const validationName = document.getElementById("name");
-
-            if(validationName.validity.valueMissing) {
-                console.log("Value too small");
-            } else {
-                console.log("ok");
-            }
         });
     }
 }
-
 
 
 form.addEventListener("submit", (e) => {
