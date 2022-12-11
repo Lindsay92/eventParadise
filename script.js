@@ -28,10 +28,15 @@ givenDate.setAttribute("min", newDate);
 
 /************* Event **************/
 
-//****** */=> Creat a tooltip with bootstrap:
+//****** */=> Create a tooltip with bootstrap:
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-//****** */=> Creat a tooltip with bootstrap:
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+//****** */=> Create a tooltip with bootstrap:
+
+//****** */=> Create a toast with bootstrap:
+const toastElList = document.querySelectorAll('.toast')
+const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option));
+//****** */=> Create a toast with bootstrap:
 
 const form = document.querySelector("form");
 // console.log(form);
@@ -95,6 +100,10 @@ for (const element of elements) {
             //3°: I add a class in order to change the color text of my helptext
             nameHelp.classList.add("text-danger");
             // console.log(nameHelp);
+
+
+
+            
         });
     }
 }
@@ -103,7 +112,39 @@ for (const element of elements) {
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     // console.log("implement form reset");
-    // console.log("implement toast");
+    // console.log("implement toast");   
+
+
+    form.reset();
+    // console.log("form reset");
+
+    
+    //creation of my toast after submit my form
+    const container = document.createElement("div");
+    container.setAttribute("data-bs-autohide", "false");
+    container.setAttribute("role", "alert");
+    container.classList.add("text-bg-success", "d-flex", "toast");
+    // message.textContent = "Votre message a été envoyé";
+
+    const validationForm = document.createElement("div");
+    validationForm.textContent = "Votre message a été envoyé";
+    validationForm.classList.add("toast-body");
+
+    const button = document.createElement("button");
+    button.classList.add("btn-close", "me-2", "m-auto");
+    button.setAttribute("data-bs-dismiss", "toast");
+    button.setAttribute("type", "button");
+    
+    container.append(validationForm,button);
+
+    form.append(container);
+    // message.append(button);
+    
+    const toast = bootstrap.Toast.getOrCreateInstance(container);
+
+    toast.show();
+
+    console.log(toast);
 });
 
 
