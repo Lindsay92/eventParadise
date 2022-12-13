@@ -90,10 +90,9 @@ for (const element of elements) { // = forEach element
             //******CREATE FOCUS WHEN IS INVALID *******
             const elementInvalid = document.querySelector(".is-invalid");
             elementInvalid.focus();
-            //******CREATE FOCUS *******
             
 
-            //******* CHANGE THE COLOR HELPTEXT WHEN US INVALID ******* 
+            //******* CHANGE THE COLOR HELPTEXT WHEN IS INVALID ******* 
 
             // 1°: I pick up the value "name" of my DOM from each input
             const name = element.name;
@@ -109,7 +108,6 @@ for (const element of elements) { // = forEach element
             
         
             //******* CHANGE THE ELEMENTS WHEN IS VALID ******* 
-                
             element.addEventListener("change", () => {
                 if (element.checkValidity()) {
                     element.classList.replace("is-invalid", "is-valid");
@@ -120,33 +118,36 @@ for (const element of elements) { // = forEach element
                     
                     tooltip.dispose({".tooltip": "trigger:hover focus"}); 
                     //delete my tooltips when my input is correct
-
-                }else{
-                    tooltip.enable({".tooltip": "trigger:hover focus"});
                 }
-            }) ;
+            });
         });
     }
 
 }
 
+
+// const form = document.querySelector("form");
+// // console.log(form);
+
+// const elements = form.elements;
+
 form.addEventListener("submit", (e) => {
-    e.preventDefault();
+    e.preventDefault(); //method to prevent the page from reloading
     // console.log("implement form reset");
     // console.log("implement toast");   
     
 
     // *******CREATE MY TOAST *********
 
-    //************ creation of my big container
+    //************ creation of my big container which will contain my container
     const bigContainer = document.createElement("div");
     bigContainer.classList.add("d-flex", "justify-content-end");
-    //creation of my toast after submit my form
+
+    //************ creation of my container which will contain my const validationForm and const button
     const container = document.createElement("div");
     container.setAttribute("data-bs-autohide", "false");
     container.setAttribute("role", "alert");
     container.classList.add("text-bg-success", "d-flex", "toast");
-    // message.textContent = "Votre message a été envoyé";
 
     const validationForm = document.createElement("div");
     validationForm.textContent = "Votre message a été envoyé";
@@ -161,7 +162,6 @@ form.addEventListener("submit", (e) => {
     bigContainer.append(container);
 
     form.append(bigContainer);
-    // message.append(button);
 
     const toast = bootstrap.Toast.getOrCreateInstance(container);
 
@@ -169,8 +169,9 @@ form.addEventListener("submit", (e) => {
 
 
     // *******FORM RESET *********
-    form.reset();
-    
+    form.reset("form-control");
+    //restores a form's element to their default values
+
 });
 
 
