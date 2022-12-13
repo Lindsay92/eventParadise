@@ -1,5 +1,5 @@
 
-/*************** THE DATE = Field date *****************/
+/*************** FILED DATE *****************/
 
 let givenDate = document.getElementById("date");
 let currentDate = new Date();
@@ -23,10 +23,10 @@ let newDate = year + "-" + (month + 1) + "-" + day;
 
 givenDate.setAttribute("min", newDate);
 
-/*************** THE DATE = Field date *****************/
+/*************** FIELD DATE *****************/
 
 
-/************* EVENT **************/
+/*************** EVENT *********************/
 
 //****** */=> Create a tooltip with bootstrap:
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -43,14 +43,13 @@ const form = document.querySelector("form");
 
 const elements = form.elements;
 
-for (const element of elements) {
+for (const element of elements) { // = forEach element
     const type = element.type;
     if (type != "submit") {
         // console.log(element);
 
         element.addEventListener("invalid", (event) => {
-            event.preventDefault(); //delete the event html validation
-
+            event.preventDefault(); //= delete the event html validation
             // console.log(element.name);
             // console.log(element.style.backgroundColor = "red");
 
@@ -82,24 +81,19 @@ for (const element of elements) {
                 // console.log("Be positif");
                 //if it's not empty but invalid input. 
             }
-
-            // focus.disable({trigger: 'focus' })
             
             const tooltip = bootstrap.Tooltip.getOrCreateInstance(element);
-            // tooltip.show(); => apparition des tooltips sur tous les éléments
-            tooltip.enable(); //=> apparition du tooltip un par un 
+            // tooltip.show(); => Can see all tooltips on each element when I submit
+            tooltip.enable(); //=> Can see the tooltip one by one 
 
 
-            //******CREATE FOCUS *******
-
+            //******CREATE FOCUS WHEN IS INVALID *******
             const elementInvalid = document.querySelector(".is-invalid");
-            
             elementInvalid.focus();
-
             //******CREATE FOCUS *******
             
 
-            //*******CHANGE THE COLOR HELPTEXT******* 
+            //******* CHANGE THE COLOR HELPTEXT WHEN US INVALID ******* 
 
             // 1°: I pick up the value "name" of my DOM from each input
             const name = element.name;
@@ -113,29 +107,24 @@ for (const element of elements) {
             nameHelp.classList.add("text-danger");
             // console.log(nameHelp);
             
-            
-            element.addEventListener("change", myFonction);
-
-            function myFonction(){
-            
-                element.classList.remove("is-invalid");
-                element.classList.add("border-success");
+        
+            //******* CHANGE THE COLOR HELPTEXT WHEN IS VALID ******* 
                 
+            element.addEventListener("change", (event) => {
+
+                element.classList.remove("is-invalid");
+                element.classList.add("is-valid");
+                element.classList.add("form-control");
                 
                 const nameHelp = document.getElementById(`${name}-help`)
                 nameHelp.classList.remove("text-danger");
                 nameHelp.classList.add("text-success");
                 
-                const test = bootstrap.Tooltip(disable);
-            
-            // tooltip.disable(); //=> apparition du tooltip un par un 
+               
+                 tooltip.dispose({".tooltip": "trigger:hover focus"}); 
+                //delete my tooltips when my input is correct
 
-               // Returns a Bootstrap tooltip instance
-
-console.log(test);
-
-
-            }
+    }) ;
         });
 
     }
@@ -158,7 +147,10 @@ form.addEventListener("submit", (e) => {
     const container = document.createElement("div");
     container.setAttribute("data-bs-autohide", "false");
     container.setAttribute("role", "alert");
-    container.classList.add("text-bg-success", "d-flex", "toast");
+    container.classList.add("toast", "text-bg-success"); //"d-flex"
+
+    const flex = document.createElement("div");
+    flex.classList.add("d-flex");
 
     const validationForm = document.createElement("div");
     validationForm.textContent = "Votre message a été envoyé";
@@ -169,10 +161,11 @@ form.addEventListener("submit", (e) => {
     button.setAttribute("data-bs-dismiss", "toast");
     button.setAttribute("type", "button");
     
-    container.append(validationForm,button);
+    flex.append(validationForm,button);
+    container.append(flex);
 
-    form.append(container);
-    // message.append(button);
+    form.appendChild(container);
+
     
     const toast = bootstrap.Toast.getOrCreateInstance(container);
 
@@ -188,31 +181,6 @@ form.addEventListener("submit", (e) => {
     
 });
 
-
-    
-
-
-
-
-
-// CODE NE REPOND PAS A L EXERCICE
-
-// const myForm = document.getElementById("form");
-
-// form.addEventListener("submit", validity);
-
-//     function validity(){
-//         if (!myForm.checkValidity()) {
-//             document.getElementById("tooltips").innerHTML = "à remplir";
-//             console.log("incorrect");
-//         } else {
-//             document.getElementById("tooltips").innerHTML = "Input ok";
-//             document.getElementById("tooltips").style.backgroundColor = "green";
-//             const message = document.getElementsByClassName("form-text");
-//             message.color = "green";
-//             console.log("ça fonctione");
-//         }
-//     }
 
 
 
