@@ -108,49 +108,45 @@ for (const element of elements) { // = forEach element
             // console.log(nameHelp);
             
         
-            //******* CHANGE THE COLOR HELPTEXT WHEN IS VALID ******* 
+            //******* CHANGE THE ELEMENTS WHEN IS VALID ******* 
                 
-            element.addEventListener("change", (event) => {
+            element.addEventListener("change", () => {
+                if (element.checkValidity()) {
+                    element.classList.replace("is-invalid", "is-valid");
+                    element.classList.add("form-control");
+                    
+                    const nameHelp = document.getElementById(`${name}-help`)
+                    nameHelp.classList.replace("text-danger", "text-success");
+                    
+                    tooltip.dispose({".tooltip": "trigger:hover focus"}); 
+                    //delete my tooltips when my input is correct
 
-                element.classList.remove("is-invalid");
-                element.classList.add("is-valid");
-                element.classList.add("form-control");
-                
-                const nameHelp = document.getElementById(`${name}-help`)
-                nameHelp.classList.remove("text-danger");
-                nameHelp.classList.add("text-success");
-                
-               
-                 tooltip.dispose({".tooltip": "trigger:hover focus"}); 
-                //delete my tooltips when my input is correct
-
-    }) ;
+                }else{
+                    tooltip.enable({".tooltip": "trigger:hover focus"});
+                }
+            }) ;
         });
-
     }
 
 }
-
-
-
-
-
-
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     // console.log("implement form reset");
     // console.log("implement toast");   
     
-     // *******CREATE MY TOAST *********
-    //************ creation of my toast after submit my form
+
+    // *******CREATE MY TOAST *********
+
+    //************ creation of my big container
+    const bigContainer = document.createElement("div");
+    bigContainer.classList.add("d-flex", "justify-content-end");
+    //creation of my toast after submit my form
     const container = document.createElement("div");
     container.setAttribute("data-bs-autohide", "false");
     container.setAttribute("role", "alert");
-    container.classList.add("toast", "text-bg-success"); //"d-flex"
-
-    const flex = document.createElement("div");
-    flex.classList.add("d-flex");
+    container.classList.add("text-bg-success", "d-flex", "toast");
+    // message.textContent = "Votre message a été envoyé";
 
     const validationForm = document.createElement("div");
     validationForm.textContent = "Votre message a été envoyé";
@@ -160,23 +156,19 @@ form.addEventListener("submit", (e) => {
     button.classList.add("btn-close", "me-2", "m-auto");
     button.setAttribute("data-bs-dismiss", "toast");
     button.setAttribute("type", "button");
-    
-    flex.append(validationForm,button);
-    container.append(flex);
 
-    form.appendChild(container);
+    container.append(validationForm,button);
+    bigContainer.append(container);
 
-    
+    form.append(bigContainer);
+    // message.append(button);
+
     const toast = bootstrap.Toast.getOrCreateInstance(container);
 
     toast.show();
-    //console.log(toast);
-
-     //************ creation of my toast after submit my form
 
 
-
-      // *******FORM RESET *********
+    // *******FORM RESET *********
     form.reset();
     
 });
