@@ -150,7 +150,7 @@ form.addEventListener("submit", (e) => {
     container.classList.add("text-bg-success", "d-flex", "toast");
 
     const validationForm = document.createElement("div");
-    validationForm.textContent = "Votre message a été envoyé";
+    validationForm.textContent = "Evènement créé avec succés";
     validationForm.classList.add("toast-body");
 
     const button = document.createElement("button");
