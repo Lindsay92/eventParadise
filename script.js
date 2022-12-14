@@ -48,7 +48,7 @@ for (const element of elements) { // = forEach element
     if (type != "submit") {
         // console.log(element);
 
-        element.addEventListener("invalid", (event) => {
+        element.addEventListener("invalid", (event) => {  //=> FUNCTION CALLBACK
             event.preventDefault(); //= delete the event html validation
             // console.log(element.name);
             // console.log(element.style.backgroundColor = "red");
@@ -68,7 +68,7 @@ for (const element of elements) { // = forEach element
             tooltip.enable(); //=> Can see the tooltip one by one 
         
             const validity = element.validity;
-            //console.log(validity);
+            console.log(validity);
             //I can see the status of my differents values (valueMissing, tooLong, tooShort...)
 
             //BE CAREFUL ! : condition before the method show
@@ -135,12 +135,7 @@ for (const element of elements) { // = forEach element
 
 }
 
-// const form = document.querySelector("form");
-// // console.log(form);
-
-// const elements = form.elements;
-
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", (e) => { // => FUNCTION CALLBACK
     e.preventDefault(); //method to prevent the page from reloading
     // console.log("implement form reset");
     // console.log("implement toast");   
