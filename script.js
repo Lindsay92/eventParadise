@@ -57,9 +57,15 @@ for (const element of elements) { // = forEach element
             //add a class is-invalid for each element
             
             // *******CREATE MY TOOLTIPS *********
-            //add dynamically attribute for creating tooltip attribut
-            // element.setAttribute("data-bs-title", "Ce champ est obligatoire");
+
+            //add dynamically attributes for after initializing tooltip 
+            element.setAttribute("data-bs-title", "Ce champ est obligatoire");
             element.setAttribute("data-bs-custom-class", "custom-tooltip");
+
+            //I initialize my tooltips with the method below 
+            const tooltip = bootstrap.Tooltip.getOrCreateInstance(element);
+            // tooltip.show(); => Can see all tooltips on each element when I submit
+            tooltip.enable(); //=> Can see the tooltip one by one 
         
             const validity = element.validity;
             //console.log(validity);
@@ -72,19 +78,23 @@ for (const element of elements) { // = forEach element
                 //First error message if my form is empty,
 
             } else if (element.name == "date") {
-                element.setAttribute("data-bs-title", "Doit être égale ou supérieure à aujourd'hui");
+                tooltip.setContent({".tooltip-inner": "Doit être égale ou supérieure à aujourd'hui"});
+                // element.setAttribute("data-bs-title", "Doit être égale ou supérieure à aujourd'hui");
                 // console.log("Too low");
                 //if it's not empty but invalid input,
-        
+                
             } else if (element.name == "rate") {
-                element.setAttribute("data-bs-title", "Doit être positif");
+                tooltip.setContent({".tooltip-inner": "Doit être positif"});
+                // element.setAttribute("data-bs-title", "Doit être positif");
                 // console.log("Be positif");
                 //if it's not empty but invalid input. 
             }
             
-            const tooltip = bootstrap.Tooltip.getOrCreateInstance(element);
-            // tooltip.show(); => Can see all tooltips on each element when I submit
-            tooltip.enable(); //=> Can see the tooltip one by one 
+
+            // IN FACT, I INITIALIZED MY TOOLTYPE WITH THE BOOTSTRAP METHOD : const tooltip = bootstrap.Tooltip.getOrCreateInstance()
+            // I CAN NOW CHANGE THE MESSAGE OF MY TOOLTIP WITH SETCONTENT 
+            // => tooltip.setContent({".tooltip-inner": "Doit être positif"});
+            // setContent accepts an objet between ()
 
 
             //******CREATE FOCUS WHEN IS INVALID *******
@@ -124,7 +134,6 @@ for (const element of elements) { // = forEach element
     }
 
 }
-
 
 // const form = document.querySelector("form");
 // // console.log(form);
