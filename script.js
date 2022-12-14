@@ -173,8 +173,18 @@ form.addEventListener("submit", (e) => { // => FUNCTION CALLBACK
 
 
     // *******FORM RESET *********
-    form.reset("form-control");
     //restores a form's element to their default values
+
+    form.reset();
+
+    for (const element of elements) {
+        element.classList.remove("is-valid");
+
+        const name = element.name;
+        const nameHelp = document.getElementById(`${name}-help`)
+        nameHelp.classList.remove("text-success");
+    }
+    
 
 });
 
