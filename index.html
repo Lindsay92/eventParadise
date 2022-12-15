@@ -24,19 +24,19 @@
             
             <div class="col-md-4">
                 <label for="name" class="form-label fw-semibold">Nom</label>
-                <input type="text" id="name" class="form-control" name="name" minlength="1" maxlength="255" required>
+                <input type="text" id="name" class="form-control" name="name" minlength="1" maxlength="255" data-bs-custom-class= "custom-tooltip" required>
                 <div id="name-help" class="form-text">Nom de l'évènement.</div>
             </div>
 
             <div class="col-md-4">
                 <label for="date" class="form-label fw-semibold">Date</label>
-                <input type="date" id="date" class="form-control" name="date" min="" required/>
+                <input type="date" id="date" class="form-control" name="date" min="" data-bs-custom-class= "custom-tooltip" required/>
                 <div id="date-help"class="form-text">Date de l'évènement.</div>
             </div>
 
             <div class="col-md-4">
                 <label for="location" class="form-label fw-semibold">Lieu</label>
-                    <select id="location" class="form-select" name="location" required>
+                    <select id="location" class="form-select" name="location" data-bs-custom-class= "custom-tooltip" required>
                         <option value="" >Choisir un lieu dans la liste</option>
                         <option value="paris" required>Paris</option>
                         <option value="rennes">Rennes</option>
@@ -48,7 +48,7 @@
 
             <div class="col-md-8">
                 <label for="theme" class="form-label fw-semibold">Thème</label>
-                    <select id="theme" class="form-select" name="theme" required>
+                    <select id="theme" class="form-select" name="theme" data-bs-custom-class= "custom-tooltip" required>
                         <option value="">Choisir un thème dans la liste</option>
                         <option value="ecologie">Ecologie</option>
                         <option value="ressourcesHumaines">Ressources Humaines</option>
@@ -61,7 +61,7 @@
                 <label for="rate" class="form-label fw-semibold">Tarif</label>
                     <div class="input-group">
                         <span class="input-group-text">€</span>
-                        <input type="number" id="rate" class="form-control" name="rate" min="1" required>
+                        <input type="number" id="rate" class="form-control" name="rate" min="1" data-bs-custom-class= "custom-tooltip" required>
                     </div>
                     <div id="rate-help" class="form-text">Tarif journalier de l'évènement.</div>
             </div>
@@ -69,7 +69,7 @@
             <div class="col-12">
                 <div class="mb-3">
                     <label for="textarea" class="form-label fw-semibold" >Description</label>
-                    <textarea id="textarea" class="form-control " rows="3" minlength="1" maxlength="1000" name="textarea" required></textarea>
+                    <textarea id="textarea" class="form-control " rows="3" minlength="1" maxlength="1000" name="textarea" data-bs-custom-class= "custom-tooltip" required></textarea>
                     <div id="textarea-help" class="form-text">Description de l'évènement.</div>
                 </div>
             </div>
@@ -77,7 +77,22 @@
             <div class="col-12 d-flex justify-content-end">
                 <button class="btn btn-primary col-12 col-md-2" type="submit">Sauvegarder</button>
             </div>
+
+            
         </form>      
+
+        <section>
+            <div class="d-flex justify-content-end p-2">
+                <div class="toast text-bg-success" data-bs-autohide= "false" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            Événement créé avec succès !
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" ></button>
+                    </div>
+                </div>
+            </div>
+        </section>
         
     </body>
 </html>

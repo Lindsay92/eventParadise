@@ -1,47 +1,36 @@
 
 /*************** FILED DATE *****************/
 
-let givenDate = document.getElementById("date");
-let currentDate = new Date();
+const givenDate = document.getElementById("date");
+const currentDate = new Date();
 // console.log(givenDate);
 // console.log(currentDate);
 
-let day = currentDate.getDate();
-// console.log(day);
-if (day < 10) {
-    day = "0" + day;
-}
-
-let month = currentDate.getMonth();
-// console.log(month);
-
+let day = currentDate.getDate().toString().padStart(2, "0"); // add 2 digits
+let month = currentDate.getMonth() + 1;
 let year = currentDate.getFullYear();
-// console.log(year);
 
-let newDate = year + "-" + (month + 1) + "-" + day;
-// console.log(newDate);
 
+let newDate = `${year}-${month}-${day}`;
+//console.log(newDate);
 givenDate.setAttribute("min", newDate);
+
+//string.prototype.padStart()
+// =>https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart#examples
 
 /*************** FIELD DATE *****************/
 
 
 /*************** EVENT *********************/
 
-//****** */=> Create a tooltip with bootstrap:
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-//****** */=> Create a tooltip with bootstrap:
-
-//****** */=> Create a toast with bootstrap:
-const toastElList = document.querySelectorAll('.toast')
-const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option));
-//****** */=> Create a toast with bootstrap:
-
 const form = document.querySelector("form");
 // console.log(form);
 
 const elements = form.elements;
+
+const options = {
+    title: "Ce champ est obligatoire",
+};
 
 for (const element of elements) { // = forEach element
     const type = element.type;
@@ -56,14 +45,11 @@ for (const element of elements) { // = forEach element
             element.classList.add("is-invalid"); 
             //add a class is-invalid for each element
             
-            // *******CREATE MY TOOLTIPS *********
 
-            //add dynamically attributes for after initializing tooltip 
-            element.setAttribute("data-bs-title", "Ce champ est obligatoire");
-            element.setAttribute("data-bs-custom-class", "custom-tooltip");
+            // *******CREATE MY TOOLTIPS DYNAMICALLY *********
 
             //I initialize my tooltips with the method below 
-            const tooltip = bootstrap.Tooltip.getOrCreateInstance(element);
+            const tooltip = bootstrap.Tooltip.getOrCreateInstance(element, options);
             // tooltip.show(); => Can see all tooltips on each element when I submit
             // tooltip.enable(); //=> Can see the tooltip one by one
         
@@ -77,11 +63,11 @@ for (const element of elements) { // = forEach element
                 message = "Ce champ est obligatoire";
                 //First error message if my form is empty,
 
-            } else if (element.name == "date") {
+            } else if (element.name == "date" && validity.rangeUnderflow ) {
                 message = "Doit être égale ou supérieure à aujourd'hui";
                 //if it's not empty but invalid input,
 
-            } else if (element.name == "rate") {
+            } else if (element.name == "rate" && validity.rangeUnderflow) {
                 message = "Doit être positif";
             }
             
@@ -96,9 +82,16 @@ for (const element of elements) { // = forEach element
 
             //******CREATE FOCUS WHEN IS INVALID *******
 
-            const elementInvalid = document.querySelector(".is-invalid");
-            elementInvalid.focus();
-            
+                const firstElementInvalid = document.querySelector(".is-invalid");
+                // I pick up my first element invalid with my const firstElementInvalid
+                if (firstElementInvalid == element) {
+                    // I compare my first element invalid with the next element
+                    // => to compare element means eg: if input date == input name
+                    firstElementInvalid.focus();
+                    // if yes : focus
+                }
+                // if not, no focus 
+
 
             //******* CHANGE THE COLOR HELPTEXT WHEN IS INVALID ******* 
 
@@ -114,6 +107,8 @@ for (const element of elements) { // = forEach element
             nameHelp.classList.add("text-danger");
             // console.log(nameHelp);
             
+        });
+
 
         //******* CHANGE THE ELEMENTS WHEN IS VALID ******* 
 
@@ -121,21 +116,22 @@ for (const element of elements) { // = forEach element
             if (element.checkValidity()) {
                 //check if element has any contraints
 
-                element.classList.replace("is-invalid", "is-valid");
+                element.classList.remove("is-invalid");
+                element.classList.add("is-valid");
                 
+                const name = element.name;
                 const nameHelp = document.getElementById(`${name}-help`)
-                nameHelp.classList.replace("text-danger", "text-success");
+                nameHelp.classList.remove("text-danger");
+                nameHelp.classList.add("text-success");
                 
-                tooltip.dispose({".tooltip": "trigger:hover focus"}); 
+                const tooltip = bootstrap.Tooltip.getOrCreateInstance(element, options);
+                tooltip.dispose(); 
                 //delete my tooltips when my input is correct
-            }else{
-                tooltip.enable({".tooltip": "trigger:hover focus"}); 
             }
-        });
-
         });
     }
 }
+
 
 form.addEventListener("submit", (e) => { // => FUNCTION CALLBACK
     e.preventDefault(); //method to prevent the page from reloading
@@ -145,32 +141,10 @@ form.addEventListener("submit", (e) => { // => FUNCTION CALLBACK
 
     // *******CREATE MY TOAST *********
 
-    //************ creation of my big container which will contain my container
-    const bigContainer = document.createElement("div");
-    bigContainer.classList.add("d-flex", "justify-content-end");
+    const myToast = document.querySelector('.toast')
 
-    //************ creation of my container which will contain my const validationForm and const button
-    const container = document.createElement("div");
-    container.setAttribute("data-bs-autohide", "false");
-    container.setAttribute("role", "alert");
-    container.classList.add("text-bg-success", "d-flex", "toast");
-
-    const validationForm = document.createElement("div");
-    validationForm.textContent = "Evènement créé avec succés";
-    validationForm.classList.add("toast-body");
-
-    const button = document.createElement("button");
-    button.classList.add("btn-close", "me-2", "m-auto");
-    button.setAttribute("data-bs-dismiss", "toast");
-    button.setAttribute("type", "button");
-
-    container.append(validationForm,button);
-    bigContainer.append(container);
-
-    form.append(bigContainer);
-
-    const toast = bootstrap.Toast.getOrCreateInstance(container);
-
+    const toast = new bootstrap.Toast(myToast);
+    // console.log(toast)
     toast.show();
 
 
@@ -183,9 +157,8 @@ form.addEventListener("submit", (e) => { // => FUNCTION CALLBACK
         element.classList.remove("is-valid");
 
         const name = element.name;
-        const nameHelp = document.getElementById(`${name}-help`)
-        nameHelp.classList.remove("text-success");
+        const nameHelp = document.getElementById(`${name}-help`);
+        nameHelp.classList.remove("text-success");  
     }
     
-
 });
