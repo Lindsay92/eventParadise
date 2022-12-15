@@ -65,39 +65,37 @@ for (const element of elements) { // = forEach element
             //I initialize my tooltips with the method below 
             const tooltip = bootstrap.Tooltip.getOrCreateInstance(element);
             // tooltip.show(); => Can see all tooltips on each element when I submit
-            tooltip.enable(); //=> Can see the tooltip one by one 
+            // tooltip.enable(); //=> Can see the tooltip one by one
         
             const validity = element.validity;
-            console.log(validity);
+            // console.log(validity);
             //I can see the status of my differents values (valueMissing, tooLong, tooShort...)
 
             //BE CAREFUL ! : condition before the method show
-            if(element.validity.valueMissing == true) {
-                element.setAttribute("data-bs-title", "Ce champ est obligatoire");
-                //console.log("Value missing");
+            let message = null;
+            if(validity.valueMissing) {
+                message = "Ce champ est obligatoire";
                 //First error message if my form is empty,
 
             } else if (element.name == "date") {
-                tooltip.setContent({".tooltip-inner": "Doit être égale ou supérieure à aujourd'hui"});
-                // element.setAttribute("data-bs-title", "Doit être égale ou supérieure à aujourd'hui");
-                // console.log("Too low");
+                message = "Doit être égale ou supérieure à aujourd'hui";
                 //if it's not empty but invalid input,
-                
+
             } else if (element.name == "rate") {
-                tooltip.setContent({".tooltip-inner": "Doit être positif"});
-                // element.setAttribute("data-bs-title", "Doit être positif");
-                // console.log("Be positif");
-                //if it's not empty but invalid input. 
+                message = "Doit être positif";
             }
             
-
-            // IN FACT, I INITIALIZED MY TOOLTYPE WITH THE BOOTSTRAP METHOD : const tooltip = bootstrap.Tooltip.getOrCreateInstance()
+            tooltip.setContent({ '.tooltip-inner': message });
+            
+            
+            // IN FACT, I INITIALIZED MY TOOLTYPE WITH THE METHOD : const tooltip = bootstrap.Tooltip.getOrCreateInstance()
             // I CAN NOW CHANGE THE MESSAGE OF MY TOOLTIP WITH SETCONTENT 
-            // => tooltip.setContent({".tooltip-inner": "Doit être positif"});
-            // setContent accepts an objet between ()
+            // => tooltip.setContent({".tooltip-inner": message"});
+            // setContent accepts an object between ()
 
 
             //******CREATE FOCUS WHEN IS INVALID *******
+
             const elementInvalid = document.querySelector(".is-invalid");
             elementInvalid.focus();
             
@@ -112,27 +110,31 @@ for (const element of elements) { // = forEach element
             //"-help" is the word I put in each id of my div (helptext)
             const nameHelp = document.getElementById(`${name}-help`)
             
-            //3°: I add a class in order to change the color text of my helptext
+            //3°: I add a class in order to change the color of my helptext
             nameHelp.classList.add("text-danger");
             // console.log(nameHelp);
             
-        
-            //******* CHANGE THE ELEMENTS WHEN IS VALID ******* 
-            element.addEventListener("change", () => {
-                if (element.checkValidity()) {
-                    element.classList.replace("is-invalid", "is-valid");
-                    element.classList.add("form-control");
-                    
-                    const nameHelp = document.getElementById(`${name}-help`)
-                    nameHelp.classList.replace("text-danger", "text-success");
-                    
-                    tooltip.dispose({".tooltip": "trigger:hover focus"}); 
-                    //delete my tooltips when my input is correct
-                }
-            });
+
+        //******* CHANGE THE ELEMENTS WHEN IS VALID ******* 
+
+        element.addEventListener("change", (event) => {
+            if (element.checkValidity()) {
+                //check if element has any contraints
+
+                element.classList.replace("is-invalid", "is-valid");
+                
+                const nameHelp = document.getElementById(`${name}-help`)
+                nameHelp.classList.replace("text-danger", "text-success");
+                
+                tooltip.dispose({".tooltip": "trigger:hover focus"}); 
+                //delete my tooltips when my input is correct
+            }else{
+                tooltip.enable({".tooltip": "trigger:hover focus"}); 
+            }
+        });
+
         });
     }
-
 }
 
 form.addEventListener("submit", (e) => { // => FUNCTION CALLBACK
@@ -187,12 +189,3 @@ form.addEventListener("submit", (e) => { // => FUNCTION CALLBACK
     
 
 });
-
-
-
-
-
-
-
-
-
