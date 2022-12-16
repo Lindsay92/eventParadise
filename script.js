@@ -6,17 +6,12 @@ const currentDate = new Date();
 // console.log(givenDate);
 // console.log(currentDate);
 
-let day = currentDate.getDate().toString().padStart(2, "0"); // add 2 digits
-let month = currentDate.getMonth() + 1;
-let year = currentDate.getFullYear();
+const date = currentDate.toISOString().slice(0,10);
+// console.log(date);
 
+givenDate.setAttribute("min", date);
 
-let newDate = `${year}-${month}-${day}`;
-//console.log(newDate);
-givenDate.setAttribute("min", newDate);
-
-//string.prototype.padStart()
-// =>https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart#examples
+//toISOString : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
 
 /*************** FIELD DATE *****************/
 
