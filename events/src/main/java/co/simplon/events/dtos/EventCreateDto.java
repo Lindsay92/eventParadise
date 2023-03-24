@@ -2,18 +2,33 @@ package co.simplon.events.dtos;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import co.simplon.events.entities.Location;
 import co.simplon.events.entities.Topic;
 
 public class EventCreateDto {
 
+	@NotEmpty
+	@NotNull
 	private String name;
+	@NotEmpty
+	@NotNull
 	private LocalDateTime createdAt;
 //	private Location location;
 //	private Topic topic;
+	@NotNull
 	private Long location;
+	@NotNull
 	private Long topic;
+	@NotEmpty
+	@NotNull
+	@Positive
 	private int rate;
+	@NotEmpty
+	@NotNull
 	private String description;
 	
 	public EventCreateDto() {
